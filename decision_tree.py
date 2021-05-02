@@ -22,21 +22,49 @@ def build_tree(depth: int, node):
         build_tree(depth - 1 if turn_ended else depth, new_child)
 
 
-def min_max_tree(node, depth, maximizing_player):
+def min_max(node, depth, maximizing_player):
     if depth == 0 or is_game_finished(node.board, node.player):
         node.minmax_value = node.get_board_value()
         return node.get_board_value()
     if maximizing_player == node.player:
         value = float('-inf')
         for child in node.children:
-            value = max(value, min_max_tree(child, depth - 1, maximizing_player))
+            value = max(value, min_max(child, depth - 1, maximizing_player))
             node.minmax_value = value
         return value
     else:
         value = float('inf')
         for child in node.children:
-            value = min(value, min_max_tree(child, depth - 1, maximizing_player))
+            value = min(value, min_max(child, depth - 1, maximizing_player))
             node.minmax_value = value
+        return value
+
+
+def alpha_beta(node, depth, maximizing_player):
+    return alpha_beta_min_max(node, depth, maximizing_player, float('-inf'), float('inf'))
+
+
+def alpha_beta_min_max(node, depth, maximizing_player, alpha, beta):
+    if depth == 0 or is_game_finished(node.board, node.player):
+        node.minmax_value = node.get_board_value()
+        return node.get_board_value()
+    if maximizing_player == node.player:
+        value = float('-inf')
+        for child in node.children:
+            value = max(value, alpha_beta_min_max(child, depth - 1, maximizing_player, alpha, beta))
+            node.minmax_value = value
+            alpha = max(alpha, value)
+            if beta <= alpha:
+                break
+        return value
+    else:
+        value = float('inf')
+        for child in node.children:
+            value = min(value, alpha_beta_min_max(child, depth - 1, maximizing_player, alpha, beta))
+            node.minmax_value = value
+            beta = min(beta, value)
+            if beta <= alpha:
+                break
         return value
 
 
