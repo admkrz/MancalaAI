@@ -128,16 +128,18 @@ class MancalaGame:
             self.current_player = self.player1
 
     def print_results(self):
-        self.print_board()
+        # self.print_board()
         results1, results2 = self.get_results()
-        print(f"{self.player1.name} score: {results1}")
-        print(f"{self.player2.name} score: {results2}")
+        save = open(f"results_depth{self.player1.depth}_heuristic{self.player1.heuristic}_alpha{self.player1.alpha_beta}.csv", "a")
         if results1 > results2:
-            print("Player 1 has won!")
+            print(f"{self.player1.timeElapsed};{self.player1.moves}\n")
+            save.write(f"{self.player1.timeElapsed};{self.player1.moves}\n")
         if results1 < results2:
-            print("Player 2 has won!")
+            print(f"{self.player2.timeElapsed};{self.player2.moves}\n")
+            save.write(f"{self.player2.timeElapsed};{self.player2.moves}\n")
         if results1 == results2:
             print("Draw!")
+        save.close()
 
     def get_results(self):
         return sum(self.board[0:7]), sum(self.board[7:14])

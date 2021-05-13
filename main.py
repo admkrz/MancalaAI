@@ -3,7 +3,7 @@ from player import HumanPlayer, AIPlayer
 
 if __name__ == '__main__':
     player1, player2 = None, None
-    print("Welcome to Mancala")
+    '''print("Welcome to Mancala")
     print("Choose game type (type number):")
     print("1) 2 players game")
     print("2) Player vs AI bot")
@@ -25,5 +25,18 @@ if __name__ == '__main__':
         print("Pause between moves? \n1) Yes\n2) No:")
         pause = int(input()) == 1
     print("+------+------+------+------+------+------+------+------+\n")
-    game = MancalaGame(player1, player2, pause)
-    game.play_game()
+    '''
+    for j in range(0, 9):
+        for i in range(2, 7):
+            for k in range(2, 4):
+                player1 = AIPlayer("AI1", i, k)
+                player2 = AIPlayer("AI2", i, k)
+                game = MancalaGame(player1, player2, False)
+                game.play_game()
+
+        for i in range(2, 7):
+            for k in range(2, 4):
+                player1 = AIPlayer("AI1", i, k, True)
+                player2 = AIPlayer("AI2", i, k, True)
+                game = MancalaGame(player1, player2, False)
+                game.play_game()
